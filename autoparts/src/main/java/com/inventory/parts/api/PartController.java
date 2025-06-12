@@ -17,10 +17,25 @@ public class PartController {
         this.partService = partService;
     }
 
-    @PostMapping
-    public ResponseEntity<PartResponse> createPart(@Valid @RequestBody CreatePartRequest request) {
-        PartResponse partResponse = partService.createPart(request);
-        return new ResponseEntity<>(partResponse, HttpStatus.CREATED);
+//    @PostMapping
+//    public ResponseEntity<PartResponse> createPart(@Valid @RequestBody CreatePartRequest request) {
+//        PartResponse partResponse = partService.createPart(request);
+//        return new ResponseEntity<>(partResponse, HttpStatus.CREATED);
+//    }
+
+
+    @PostMapping("/raw")
+    public ResponseEntity<PartResponse> createRawPart(@RequestBody CreatePartRequest request) {
+        request.setType(com.inventory.parts.domain.PartType.RAW);
+        PartResponse response = partService.createPart(request);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/assembled")
+    public ResponseEntity<PartResponse> createAssembledPart(@RequestBody CreateAssembledPartRequest request) {
+        request.setType(com.inventory.parts.domain.PartType.ASSEMBLED);
+        PartResponse response = partService.createPart(request);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/{partId}")
